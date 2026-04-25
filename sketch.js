@@ -1,10 +1,10 @@
-// Cube rendering
-
 const WIDTH = 500
 const HEIGTH = 500
 
 let objs = []
 let objsIndex = 0
+
+let Zangle = 0
 
 function addObject(newObject){
   objs[objsIndex] = newObject;
@@ -20,17 +20,23 @@ function setup() {
   n4 = addObject(new Node(-150,150,1.5,n3))
   n1.setNext(n4)
   
-  n1c = addObject(new Node(-150,-150,0.5,null))
-  n2c = addObject(new Node(150,-150,0.5,n1c))
-  n3c = addObject(new Node(150,150,0.5,n2c))
-  n4c = addObject(new Node(-150,150,0.5,n3c))
+  n1c = addObject(new Node(-150,-150,2,null))
+  n2c = addObject(new Node(150,-150,2,n1c))
+  n3c = addObject(new Node(150,150,2,n2c))
+  n4c = addObject(new Node(-150,150,2,n3c))
   n1c.setNext(n4c)
 }
 
 function draw() {
   background(0);
+  Zangle += 0.01
   objs.forEach(point => {
-    point.z+=0.1
+    
+    //point.cx += 1
+
+    point.cx = sin(Zangle)*point.ox/3
+    point.z = cos(Zangle)*point.oz/3
+
     point.draw()
   })
 }
@@ -42,6 +48,9 @@ function Node(x,y,z,next){
   this.x = this.cx/this.z
   this.y = this.cy/this.z
   this.next = next
+  this.ox = x
+  this.oy = y
+  this.oz = z
   
   this.draw = function(){
     this.x = this.cx/this.z
